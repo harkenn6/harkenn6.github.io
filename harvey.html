@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="mystyle.css">
+    <title>Course Portfolio</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        table { width: 80%; margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 10px; }
+        th { background-color: #2b2a2a; }
+    </style>
+</head>
+<body>
+    <h2>My Courses</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Year Level</th>
+                <th>Semester</th>
+                <th>Code</th>
+                <th>Description</th>
+                <th>Credit</th>
+            </tr>
+        </thead>
+        <tbody id="courses-table"></tbody>
+    </table>
+    <script>
+        fetch('kenn.json')
+            .then(response => response.json())
+            .then(data => {
+                let tableBody = document.getElementById("courses-table");
+                data.courses.forEach(course => {
+                    let row = `<tr>
+                        <td>${course.year_level}</td>
+                        <td>${course.sem}</td>
+                        <td>${course.code}</td>
+                        <td>${course.description}</td>
+                        <td>${course.credit}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            })
+            .catch(error => console.error('Error fetching JSON:', error));
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+body {
+    background: linear-gradient(to right, #1e1e1e, #3b0000);
+    font-family: 'Arial', sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#tableContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+#coursesTable {
+    width: 80%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: linear-gradient(135deg, rgb(82, 15, 15), rgb(40, 10, 10));
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    color: rgb(255, 255, 255);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#coursesTable th {
+    background: linear-gradient(135deg, #b30000, #ff0000);
+    color: white;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 15px;
+}
+
+#coursesTable th, #coursesTable td {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 1rem;
+    text-align: left;
+    font-size: 1rem;
+}
+
+#coursesTable tr:nth-child(even) {
+    background: rgba(255, 0, 0, 0.2);
+}
+
+#coursesTable tr:nth-child(odd) {
+    background: rgba(50, 0, 0, 0.6);
+}
+
+#coursesTable tr:hover {
+    background: rgba(255, 0, 0, 0.5);
+    transition: 0.3s ease-in-out;
+    transform: scale(1.01);
+}
+
+#coursesTable th:first-child, #coursesTable td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+#coursesTable th:last-child, #coursesTable td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#coursesTable th {
+    text-align: center;
+}
