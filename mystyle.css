@@ -71,3 +71,21 @@ body {
 #coursesTable th {
     text-align: center;
 }
+
+#search-bar {
+    width: 50%;
+    padding: 10px;
+    margin: 20px auto;
+    display: block;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+#search-bar:focus {
+    border-color: #007BFF;
+    box-shadow: 2px 2px 8px rgba(0, 123, 255, 0.3);
+    outline: none;
+}

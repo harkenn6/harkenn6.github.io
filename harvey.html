@@ -9,11 +9,15 @@
         body { font-family: Arial, sans-serif; text-align: center; }
         table { width: 80%; margin: auto; border-collapse: collapse; }
         th, td { border: 1px solid black; padding: 10px; }
-        th { background-color: #2b2a2a; }
+        th { background-color: #2b2a2a; color: white; }
     </style>
 </head>
 <body>
+    <h2>Student List</h2>
+    <ul id="student-list"></ul>
+
     <h2>My Courses</h2>
+    <input type="text" id="search-bar" placeholder="Search by description...">
     <table>
         <thead>
             <tr>
@@ -26,23 +30,57 @@
         </thead>
         <tbody id="courses-table"></tbody>
     </table>
+    
     <script>
+        let coursesData = [];
+
+        fetch("students.json")
+            .then(response => response.json())
+            .then(data => {
+                let studentList = document.getElementById("student-list");
+
+                if (data.students && Array.isArray(data.students)) {
+                    data.students.forEach(student => {
+                        let listItem = document.createElement("li");
+                        listItem.textContent = `${student.name} - ${student.age} (Course: ${student.course})`;
+                        studentList.appendChild(listItem);
+                    });
+                } else {
+                    console.error("Expected 'students' array but got:", data);
+                }
+            })
+            .catch(error => console.error("Error fetching student JSON:", error));
+
         fetch('kenn.json')
             .then(response => response.json())
             .then(data => {
-                let tableBody = document.getElementById("courses-table");
-                data.courses.forEach(course => {
-                    let row = `<tr>
-                        <td>${course.year_level}</td>
-                        <td>${course.sem}</td>
-                        <td>${course.code}</td>
-                        <td>${course.description}</td>
-                        <td>${course.credit}</td>
-                    </tr>`;
-                    tableBody.innerHTML += row;
-                });
+                coursesData = data.courses;
+                displayCourses(coursesData);
             })
             .catch(error => console.error('Error fetching JSON:', error));
+
+        function displayCourses(courses) {
+            let tableBody = document.getElementById("courses-table");
+            tableBody.innerHTML = "";
+            courses.forEach(course => {
+                let row = `<tr>
+                    <td>${course.year_level}</td>
+                    <td>${course.sem}</td>
+                    <td>${course.code}</td>
+                    <td>${course.description}</td>
+                    <td>${course.credit}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        document.getElementById("search-bar").addEventListener("input", function () {
+            let searchText = this.value.toLowerCase();
+            let filteredCourses = coursesData.filter(course =>
+                course.description.toLowerCase().includes(searchText)
+            );
+            displayCourses(filteredCourses);
+        });
     </script>
 </body>
 </html>

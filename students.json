@@ -1,0 +1,13 @@
+{
+    "students": [
+    {
+    "name": "Harvey Montero","age": 20,"course": "Information Technology"
+    },
+    {
+    "name": "Kenn Montero","age": 19,"course": "Computer Science"
+    },
+    {
+    "name": "Bodo Montero","age": 18,"course": "Data Science"
+    }
+    ]
+   }
