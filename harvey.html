@@ -13,11 +13,7 @@
     </style>
 </head>
 <body>
-    <h2>Student List</h2>
-    <ul id="student-list"></ul>
-
     <h2>My Courses</h2>
-    <input type="text" id="search-bar" placeholder="Search by description...">
     <table>
         <thead>
             <tr>
@@ -33,24 +29,6 @@
     
     <script>
         let coursesData = [];
-
-        fetch("students.json")
-            .then(response => response.json())
-            .then(data => {
-                let studentList = document.getElementById("student-list");
-
-                if (data.students && Array.isArray(data.students)) {
-                    data.students.forEach(student => {
-                        let listItem = document.createElement("li");
-                        listItem.textContent = `${student.name} - ${student.age} (Course: ${student.course})`;
-                        studentList.appendChild(listItem);
-                    });
-                } else {
-                    console.error("Expected 'students' array but got:", data);
-                }
-            })
-            .catch(error => console.error("Error fetching student JSON:", error));
-
         fetch('kenn.json')
             .then(response => response.json())
             .then(data => {
@@ -73,14 +51,6 @@
                 tableBody.innerHTML += row;
             });
         }
-
-        document.getElementById("search-bar").addEventListener("input", function () {
-            let searchText = this.value.toLowerCase();
-            let filteredCourses = coursesData.filter(course =>
-                course.description.toLowerCase().includes(searchText)
-            );
-            displayCourses(filteredCourses);
-        });
     </script>
 </body>
 </html>
