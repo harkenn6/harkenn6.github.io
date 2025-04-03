@@ -1,5 +1,5 @@
 <?php
-// db.php
+// db
 $conn = new mysqli('localhost', 'root', '', 'newbies_db');
 
 // Check connection

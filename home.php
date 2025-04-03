@@ -10,6 +10,23 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
+// DELETE USER LOGIC (Only Admin Can Delete)
+if (isset($_GET['delete_id']) && $_SESSION['user_id'] == 1) { // Only admin can delete
+    $delete_id = intval($_GET['delete_id']); // Sanitize input
+    if ($delete_id != 1) { // Prevent deleting the admin account
+        $sql = "DELETE FROM users WHERE id = $delete_id";
+        if ($conn->query($sql) === TRUE) {
+            header('Location: home.php'); // Redirect to refresh the list
+            exit;
+        } else {
+            $error_message = "Error deleting user: " . $conn->error;
+        }
+    } else {
+        $error_message = "Admin account cannot be deleted!";
+    }
+}
+
+// FETCH ALL USERS
 $sql = "SELECT * FROM users";
 $result = $conn->query($sql);
 
@@ -72,10 +89,6 @@ echo '<!DOCTYPE html>
             border-radius: 5px;
             text-align: center;
         }
-        .action-buttons {
-            display: flex;
-            justify-content: space-around;
-        }
     </style>
 </head>
 <body>
@@ -83,40 +96,40 @@ echo '<!DOCTYPE html>
 <div class="container">
     <h2>Welcome to the Home Page</h2>';
 
-    echo '<table>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>';
+// Display error message if any
+if (isset($error_message)) {
+    echo '<div class="alert">' . $error_message . '</div>';
+}
 
-    while ($row = $result->fetch_assoc()) {
-        echo '<tr>
-                <td>' . $row['id'] . '</td>
-                <td>' . $row['username'] . '</td>
-                <td>' . $row['email'] . '</td>';
-        if ($row['id'] == $user_id) {
-            echo '<td><a href="update.php?id=' . $row['id'] . '">Update</a></td>';
-        }
-        echo '<td><a href="?delete_id=' . $row['id'] . '">Delete</a></td>
-              </tr>';
+echo '<table>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>';
+
+while ($row = $result->fetch_assoc()) {
+    echo '<tr>
+            <td>' . $row['id'] . '</td>
+            <td>' . $row['username'] . '</td>
+            <td>' . $row['email'] . '</td>';
+
+    echo '<td>';
+    // Update button (Only for the logged-in user)
+    if ($row['id'] == $user_id) {
+        echo '<a href="update.php?id=' . $row['id'] . '">Update</a> ';
     }
 
-    echo '</table>';
-
-    // Delete User Logic
-    if (isset($_GET['delete_id']) && $_SESSION['user_id'] == 1) { // Check if the user is admin (assuming admin has id 1)
-        $delete_id = $_GET['delete_id'];
-        $sql = "DELETE FROM users WHERE id = $delete_id";
-        if ($conn->query($sql) === TRUE) {
-            echo '<div class="alert">User deleted successfully!</div>';
-        } else {
-            echo '<div class="alert">Error deleting user: ' . $conn->error . '</div>';
-        }
+    // Delete button (Only for admin)
+    if ($_SESSION['user_id'] == 1 && $row['id'] != 1) { // Prevent deleting admin
+        echo '<a href="?delete_id=' . $row['id'] . '" onclick="return confirm(\'Are you sure you want to delete this user?\')">Delete</a>';
     }
+    echo '</td></tr>';
+}
 
-echo '</div>
+echo '</table>
+</div>
 </body>
 </html>';
 ?>

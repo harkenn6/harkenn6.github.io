@@ -1,5 +1,5 @@
 <?php
-// login.php
+// login
 session_start();
 include('db.php');
 

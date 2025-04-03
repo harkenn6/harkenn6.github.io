@@ -1,5 +1,5 @@
 <?php
-// register.php
+// register
 session_start();
 include('db.php');
 
@@ -77,7 +77,7 @@ if (isset($_POST['register'])) {
             font-size: 14px;
             text-align: center;
         }
-    </style>
+    </style>z
 </head>
 <body>
 
