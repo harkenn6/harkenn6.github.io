@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Management</title>
+</head>
+<body>
+    <h1>Users</h1>
+    <ul id="userList"></ul>
+
+    <h2>Add User</h2>
+    <form id="userForm">
+        <input type="text" id="name" placeholder="Name" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <button type="submit">Add User</button>
+    </form>
+
+    <script>
+        const userList = document.getElementById('userList');
+        const userForm = document.getElementById('userForm');
+
+        // Load existing users
+        function loadUsers() {
+            fetch('../api/get-users.php')
+                .then(res => res.json())
+                .then(data => {
+                    userList.innerHTML = '';
+                    data.forEach(user => {
+                        const li = document.createElement('li');
+                        li.textContent = `${user.name} (${user.email})`;
+                        userList.appendChild(li);
+                    });
+                });
+        }
+
+        loadUsers(); // initial load
+
+        // Add user
+        userForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            if (!name || !email) return;
+
+            fetch('../api/add-user.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email })
+            })
+            .then(res => res.json())
+            .then(result => {
+                alert(result.message || "User added!");
+                userForm.reset();
+                loadUsers();
+            })
+            .catch(err => {
+                alert("Error adding user");
+                console.error(err);
+            });
+        });
+    </script>
+</body>
+</html>
