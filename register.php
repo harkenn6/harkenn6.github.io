@@ -77,7 +77,7 @@ if (isset($_POST['register'])) {
             font-size: 14px;
             text-align: center;
         }
-    </style>z
+    </style>
 </head>
 <body>
 
