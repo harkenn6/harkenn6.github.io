@@ -77,6 +77,18 @@ if (isset($_POST['register'])) {
             font-size: 14px;
             text-align: center;
         }
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .login-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -95,6 +107,10 @@ if (isset($_POST['register'])) {
 
         <button type="submit" name="register">Register</button>
     </form>
+
+    <div class="login-link">
+        Already have an account? <a href="login.php">Login here</a>
+    </div>
 </div>
 
 </body>
